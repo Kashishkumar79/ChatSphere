@@ -21,7 +21,13 @@ function Login() {
     };
 
     axios
-      .post("https://chatsphere-qkvb.onrender.com/api/user/login", userInfo)
+  .post(
+    "https://chatsphere-qkvb.onrender.com/api/user/login",
+    userInfo,
+    {
+      withCredentials: true,
+    }
+  )
       .then((response) => {
         if (response.data) {
           toast.success("Login successful");

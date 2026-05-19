@@ -28,8 +28,15 @@ function Signup() {
       confirmPassword: data.confirmPassword,
     };
     // console.log(userInfo);
-    await axios
-      .post("https://chatsphere-qkvb.onrender.com/api/user/signup", userInfo)
+    axios
+  await axios
+  .post(
+    "https://chatsphere-qkvb.onrender.com/api/user/signup",
+    userInfo,
+    {
+      withCredentials: true,
+    }
+  )
       .then((response) => {
         if (response.data) {
           toast.success("Signup successful");
