@@ -1,0 +1,74 @@
+# ChatSphere 💬
+
+A real-time full-stack chat application built using React.js, Node.js, Express.js, MongoDB, and Socket.io. The application enables users to communicate instantly with secure authentication and real-time messaging features.
+
+---
+
+## ✨ Features
+
+- JWT Authentication & Authorization
+- Real-time Messaging using Socket.io
+- User Login & Signup
+- Online/Offline User Status
+- Instant Message Updates
+- Responsive UI
+- MongoDB Database Integration
+- Fast and Scalable Backend
+- Protected Routes
+- Clean and Modern Interface
+
+---
+
+## 🛠️ Tech Stack
+
+### Frontend
+- React.js
+- CSS
+- Axios
+- Socket.io Client
+
+### Backend
+- Node.js
+- Express.js
+- MongoDB
+- Mongoose
+- JWT
+- Socket.io
+
+---
+
+## 📌 About The Project
+
+ChatSphere is a real-time communication platform designed to provide seamless and instant messaging between users. The application uses Socket.io for live message delivery, JWT for secure authentication, and MongoDB for efficient data management. It demonstrates full-stack development concepts including REST APIs, client-server architecture, authentication, and real-time communication.
+
+The project is deployed using modern cloud platforms and follows scalable full-stack architecture practices.
+
+---
+
+## 📂 Project Structure
+
+ChatSphere/
+│
+├── Backend/
+│   ├── models/
+│   ├── routes/
+│   ├── controllers/
+│   ├── middleware/
+│   └── server.js
+│
+├── Frontend/
+│   ├── src/
+│   ├── components/
+│   ├── pages/
+│   └── App.js
+│
+└── README.md
+
+---
+
+## ⚙️ Installation & Setup
+
+### Clone Repository
+
+```bash
+git clone your-repository-link

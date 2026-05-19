@@ -29,6 +29,10 @@ try {
 app.use("/api/user", userRoute);
 app.use("/api/message", messageRoute);
 
+app.get("/", (req, res) => {
+    res.send("Backend Running Successfully");
+});
+
 server.listen(PORT, () => {
     console.log(`Server is Running on port ${PORT}`);
 });
