@@ -8,7 +8,7 @@ const useSendMessage = () => {
     setLoading(true);
     try {
       const res = await axios.post(
-        `https://chat-sphere-fawn.vercel.app/api/message/send/${selectedConversation._id}`,
+        `https://chatsphere-qkvb.onrender.com/api/message/send/${selectedConversation._id}`,
         { message }
       );
       setMessage([...messages, res.data]);
