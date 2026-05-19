@@ -13,26 +13,35 @@ dotenv.config();
 // middleware
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors());
+
+app.use(
+  cors({
+    origin: "https://chat-sphere-fawn.vercel.app",
+    credentials: true,
+  })
+);
 
 const PORT = process.env.PORT || 3001;
 const URI = process.env.MONGODB_URI;
 
+// MongoDB Connection
 try {
-    mongoose.connect(URI);
-    console.log("Connected to MongoDB");
+  mongoose.connect(URI);
+  console.log("Connected to MongoDB");
 } catch (error) {
-    console.log(error);
+  console.log(error);
 }
 
-//routes
+// routes
 app.use("/api/user", userRoute);
 app.use("/api/message", messageRoute);
 
+// home route
 app.get("/", (req, res) => {
-    res.send("Backend Running Successfully");
+  res.send("Backend Running Successfully");
 });
 
+// server
 server.listen(PORT, () => {
-    console.log(`Server is Running on port ${PORT}`);
+  console.log(`Server is Running on port ${PORT}`);
 });
