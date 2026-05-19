@@ -29,7 +29,7 @@ function Signup() {
     };
     // console.log(userInfo);
     await axios
-      .post("/api/user/signup", userInfo)
+      .post("https://chatsphere-qkvb.onrender.com/api/user/signup", userInfo)
       .then((response) => {
         if (response.data) {
           toast.success("Signup successful");
