@@ -7,11 +7,8 @@ const app = express();
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
-<<<<<<< HEAD
+
     origin: "https://chatsphere-qkvb.onrender.com",
-=======
-    origin: "http://localhost:3001",
->>>>>>> 1f3c91372e1c0aa6e2b381f5c5e8fbfecff3211f
     methods: ["GET", "POST"],
   },
 });
