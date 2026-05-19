@@ -15,11 +15,8 @@ export const SocketProvider = ({ children }) => {
 
   useEffect(() => {
     if (authUser) {
-<<<<<<< HEAD
+
       const socket = io("https://chatsphere-qkvb.onrender.com", {
-=======
-      const socket = io("http://localhost:4002", {
->>>>>>> 1f3c91372e1c0aa6e2b381f5c5e8fbfecff3211f
         query: {
           userId: authUser.user._id,
         },
