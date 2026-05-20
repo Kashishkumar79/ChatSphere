@@ -8,9 +8,13 @@ const createTokenAndSaveCookie = (userId, res) => {
   res.cookie("jwt", token, {
     httpOnly: true,
     secure: true,
-    sameSite: "lax",
-    maxAge: 10 * 24 * 60 * 60 * 1000,
+    // BUG FIX: "none" zaroori hai cross-origin (Vercel + Render) ke liye
+    // "lax" cross-site cookies block kar deta tha
+    sameSite: "none",
+    maxAge: 10 * 24 * 60 * 60 * 1000, // 10 days
   });
+
+  return token;
 };
 
 export default createTokenAndSaveCookie;

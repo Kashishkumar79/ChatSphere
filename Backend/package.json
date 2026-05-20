@@ -1,20 +1,17 @@
 {
   "name": "backend",
   "version": "1.0.0",
-  "description": "Chatify",
+  "description": "ChatSphere Backend",
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js"
+    "start": "node index.js",
+    "dev": "nodemon index.js"
   },
-  "keywords": [
-    "MERN"
-  ],
-  "author": "Kashish kumar",
+  "keywords": ["MERN", "ChatSphere"],
+  "author": "Kashish Kumar",
   "license": "ISC",
   "dependencies": {
-    "bcrypt": "^6.0.0",
     "bcryptjs": "^2.4.3",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.6",

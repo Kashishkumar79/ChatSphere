@@ -1,18 +1,20 @@
 import mongoose from "mongoose";
-import User from "../models/user.model.js";
-import Message from "./message.model.js";
+
+// BUG FIX: User aur Message ka unnecessary import hata diya
+// ref mein string use karo, imported model nahi
+
 const conversationSchema = new mongoose.Schema(
   {
     members: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: User,
+        ref: "User",  // string - correct
       },
     ],
     messages: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: Message,
+        ref: "message",  // string - correct
         default: [],
       },
     ],

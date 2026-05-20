@@ -3,38 +3,40 @@ import http from "http";
 import express from "express";
 
 const app = express();
-
 const server = http.createServer(app);
+
 const io = new Server(server, {
   cors: {
-
-    origin: "https://chatsphere-qkvb.onrender.com",
+    // BUG FIX: Pehle yahan backend ka apna URL tha - galat tha
+    // Yahan FRONTEND ka URL hona chahiye
+    origin: process.env.FRONTEND_URL || "https://chat-sphere-fawn.vercel.app",
     methods: ["GET", "POST"],
+    credentials: true,
   },
 });
 
-// realtime message code goes here
+const users = {}; // { userId: socketId }
+
 export const getReceiverSocketId = (receiverId) => {
   return users[receiverId];
 };
 
-const users = {};
-
-// used to listen events on server side.
 io.on("connection", (socket) => {
-  console.log("a user connected", socket.id);
+  console.log("User connected:", socket.id);
+
   const userId = socket.handshake.query.userId;
-  if (userId) {
+  if (userId && userId !== "undefined") {
     users[userId] = socket.id;
-    console.log("Hello ", users);
   }
-  // used to send the events to all connected users
+
+  // Sabko online users ki list bhejo
   io.emit("getOnlineUsers", Object.keys(users));
 
-  // used to listen client side events emitted by server side (server & client)
   socket.on("disconnect", () => {
-    console.log("a user disconnected", socket.id);
-    delete users[userId];
+    console.log("User disconnected:", socket.id);
+    if (userId) {
+      delete users[userId];
+    }
     io.emit("getOnlineUsers", Object.keys(users));
   });
 });
