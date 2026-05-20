@@ -9,10 +9,16 @@ const useSendMessage = () => {
   const sendMessages = async (message) => {
     setLoading(true);
     try {
+      const authUser = JSON.parse(localStorage.getItem("ChatApp"));
+      const token = authUser?.token;
+
       const res = await axios.post(
         `https://chatsphere-qkvb.onrender.com/api/message/send/${selectedConversation._id}`,
         { message },
-        { withCredentials: true }
+        {
+          withCredentials: true,
+          headers: token ? { Authorization: `Bearer ${token}` } : {},
+        }
       );
       setMessage([...messages, res.data]);
     } catch (error) {

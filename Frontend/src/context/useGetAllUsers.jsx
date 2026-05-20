@@ -9,9 +9,15 @@ function useGetAllUsers() {
     const getUsers = async () => {
       setLoading(true);
       try {
+        const authUser = JSON.parse(localStorage.getItem("ChatApp"));
+        const token = authUser?.token;
+
         const response = await axios.get(
           "https://chatsphere-qkvb.onrender.com/api/user/allusers",
-          { withCredentials: true }
+          {
+            withCredentials: true,
+            headers: token ? { Authorization: `Bearer ${token}` } : {},
+          }
         );
         setAllUsers(response.data);
       } catch (error) {

@@ -11,9 +11,15 @@ const useGetMessage = () => {
       setLoading(true);
       if (selectedConversation && selectedConversation._id) {
         try {
+          const authUser = JSON.parse(localStorage.getItem("ChatApp"));
+          const token = authUser?.token;
+
           const res = await axios.get(
             `https://chatsphere-qkvb.onrender.com/api/message/get/${selectedConversation._id}`,
-            { withCredentials: true }
+            {
+              withCredentials: true,
+              headers: token ? { Authorization: `Bearer ${token}` } : {},
+            }
           );
           setMessage(res.data);
         } catch (error) {
