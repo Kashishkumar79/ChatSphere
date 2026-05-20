@@ -6,13 +6,13 @@ const createTokenAndSaveCookie = (userId, res) => {
   });
 
   res.cookie("jwt", token, {
-  httpOnly: true,
-  secure: true,       // ✅ HTTPS pe zaroori
-  sameSite: "none",   // ✅ Cross-origin ke liye zaroori
-  maxAge: 10 * 24 * 60 * 60 * 1000,
-});
+    httpOnly: true,
+    secure: true,
+    sameSite: "none",
+    maxAge: 10 * 24 * 60 * 60 * 1000,
+  });
 
-  return token;
+  return token; // ✅ token return ho raha hai
 };
 
 export default createTokenAndSaveCookie;

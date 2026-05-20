@@ -29,10 +29,11 @@ export const signup = async (req, res) => {
 
     await newUser.save();
 
-    createTokenAndSaveCookie(newUser._id, res);
+    const token = createTokenAndSaveCookie(newUser._id, res);
 
     return res.status(201).json({
       message: "User created successfully",
+      token,
       user: {
         _id: newUser._id,
         fullname: newUser.fullname,
@@ -52,7 +53,6 @@ export const login = async (req, res) => {
       return res.status(400).json({ error: "Email and password are required" });
     }
 
-    // BUG FIX: pehle user dhundo, phir password check karo
     const user = await User.findOne({ email });
     if (!user) {
       return res.status(400).json({ error: "Invalid email or password" });
@@ -63,10 +63,11 @@ export const login = async (req, res) => {
       return res.status(400).json({ error: "Invalid email or password" });
     }
 
-    createTokenAndSaveCookie(user._id, res);
+    const token = createTokenAndSaveCookie(user._id, res);
 
     return res.status(200).json({
       message: "User logged in successfully",
+      token,
       user: {
         _id: user._id,
         fullname: user.fullname,
