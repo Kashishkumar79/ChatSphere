@@ -6,13 +6,11 @@ const createTokenAndSaveCookie = (userId, res) => {
   });
 
   res.cookie("jwt", token, {
-    httpOnly: true,
-    secure: true,
-    // BUG FIX: "none" zaroori hai cross-origin (Vercel + Render) ke liye
-    // "lax" cross-site cookies block kar deta tha
-    sameSite: "none",
-    maxAge: 10 * 24 * 60 * 60 * 1000, // 10 days
-  });
+  httpOnly: true,
+  secure: true,       // ✅ HTTPS pe zaroori
+  sameSite: "none",   // ✅ Cross-origin ke liye zaroori
+  maxAge: 10 * 24 * 60 * 60 * 1000,
+});
 
   return token;
 };
