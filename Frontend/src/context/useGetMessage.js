@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import useConversation from "../statemanage/useConversation.js";
 import axios from "axios";
+
 const useGetMessage = () => {
   const [loading, setLoading] = useState(false);
   const { messages, setMessage, selectedConversation } = useConversation();
@@ -11,18 +12,20 @@ const useGetMessage = () => {
       if (selectedConversation && selectedConversation._id) {
         try {
           const res = await axios.get(
-            `https://chatsphere-qkvb.onrender.com/api/message/get/${selectedConversation._id}`
+            `https://chatsphere-qkvb.onrender.com/api/message/get/${selectedConversation._id}`,
+            { withCredentials: true }
           );
           setMessage(res.data);
-          setLoading(false);
         } catch (error) {
           console.log("Error in getting messages", error);
+        } finally {
           setLoading(false);
         }
       }
     };
     getMessages();
   }, [selectedConversation, setMessage]);
+
   return { loading, messages };
 };
 

@@ -50,17 +50,7 @@ function Chatuser({ onMenuClick }) {
 
       {/* Actions */}
       <div className="flex items-center gap-2 flex-shrink-0">
-        <button
-          className="w-9 h-9 rounded-xl flex items-center justify-center transition-all duration-200"
-          style={{ background: "rgba(59,130,246,0.1)", border: "1px solid var(--border-subtle)" }}
-          onMouseEnter={e => e.currentTarget.style.background = "rgba(59,130,246,0.2)"}
-          onMouseLeave={e => e.currentTarget.style.background = "rgba(59,130,246,0.1)"}
-          title="Video call (coming soon)"
-        >
-          <svg className="w-4 h-4" style={{ color: "var(--text-secondary)" }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10l4.553-2.069A1 1 0 0121 8.951V15.05a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
-          </svg>
-        </button>
+
         <button
           onClick={() => setSelectedConversation(null)}
           className="w-9 h-9 rounded-xl flex items-center justify-center transition-all duration-200"

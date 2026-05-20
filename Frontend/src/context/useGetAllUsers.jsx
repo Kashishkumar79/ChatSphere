@@ -11,12 +11,7 @@ function useGetAllUsers() {
       try {
         const response = await axios.get(
           "https://chatsphere-qkvb.onrender.com/api/user/allusers",
-          { 
-            withCredentials: true,
-            headers: {
-              "Content-Type": "application/json",
-            }
-          }
+          { withCredentials: true }
         );
         setAllUsers(response.data);
       } catch (error) {
