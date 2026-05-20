@@ -43,7 +43,7 @@ function Signup() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center relative overflow-hidden"
+    <div className="auth-layout min-h-screen flex items-center justify-center relative py-8"
       style={{ background: "linear-gradient(135deg, #020818 0%, #060d24 50%, #020818 100%)" }}>
       
       {/* Background orbs */}

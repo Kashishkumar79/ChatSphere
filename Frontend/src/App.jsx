@@ -19,7 +19,7 @@ function App() {
           path="/"
           element={
             authUser ? (
-              <div className="flex h-screen w-screen overflow-hidden" style={{ background: "var(--navy-950)" }}>
+              <div className="chat-layout flex h-screen w-screen overflow-hidden" style={{ background: "var(--navy-950)" }}>
                 {/* Sidebar toggle overlay for mobile */}
                 {sidebarOpen && (
                   <div
