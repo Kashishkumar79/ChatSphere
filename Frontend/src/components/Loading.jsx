@@ -2,18 +2,18 @@ import React from "react";
 
 function Loading() {
   return (
-    <div className="flex h-screen items-center justify-center bg-slate-600">
-        <div className="flex w-52 flex-col gap-4">
-          <div className="flex items-center gap-4">
-            <div className="skeleton h-16 w-16 shrink-0 rounded-full"></div>
-            <div className="flex flex-col gap-4">
-              <div className="skeleton h-4 w-20"></div>
-              <div className="skeleton h-4 w-28"></div>
-            </div>
-          </div>
-          <div className="skeleton h-32 w-full"></div>
+    <div className="flex items-center justify-center h-full py-12">
+      <div className="flex flex-col items-center gap-3">
+        <div className="relative w-10 h-10">
+          <div className="absolute inset-0 rounded-full border-2 border-transparent"
+            style={{ borderTopColor: "var(--accent-blue)", animation: "spin 1s linear infinite" }} />
+          <div className="absolute inset-1 rounded-full border-2 border-transparent"
+            style={{ borderBottomColor: "var(--accent-cyan)", animation: "spin 1.5s linear infinite reverse" }} />
         </div>
+        <p className="text-xs" style={{ color: "var(--text-muted)" }}>Loading messages...</p>
       </div>
+      <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
+    </div>
   );
 }
 
