@@ -4,28 +4,26 @@ export default {
   theme: {
     extend: {
       colors: {
-        navy: {
-          950: "#020818",
-          900: "#060d24",
-          800: "#0a1535",
-          700: "#0e1e4a",
-          600: "#132460",
+        bg: "#070c1b",
+        surface: "#0c1530",
+        surface2: "#111d3d",
+        line: "#1c2b52",
+        ink: "#e6ecff",
+        muted: "#8593b8",
+        dim: "#4d5d86",
+        brand: {
+          400: "#60a5fa",
+          500: "#3b82f6",
+          600: "#2563eb",
+          700: "#1d4ed8",
         },
+        accent: "#22d3ee",
       },
       fontFamily: {
         display: ["Syne", "sans-serif"],
         sans: ["DM Sans", "sans-serif"],
       },
-      animation: {
-        "fade-in": "fadeIn 0.4s ease forwards",
-        "slide-left": "slideInLeft 0.3s ease forwards",
-        "slide-right": "slideInRight 0.3s ease forwards",
-        float: "float 3s ease-in-out infinite",
-      },
     },
   },
-  plugins: [require("daisyui")],
-  daisyui: {
-    themes: ["dark"],
-  },
+  plugins: [],
 };

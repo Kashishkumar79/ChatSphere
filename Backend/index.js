@@ -6,7 +6,11 @@ import cookieParser from "cookie-parser";
 
 import userRoute from "./routes/user.route.js";
 import messageRoute from "./routes/message.route.js";
-import { app, server } from "./SocketIO/server.js";
+import friendRoute from "./routes/friend.route.js";
+import groupRoute from "./routes/group.route.js";
+import todoRoute from "./routes/todo.route.js";
+import fileRoute from "./routes/file.route.js";
+import { app, server, allowedOrigins } from "./SocketIO/server.js";
 
 dotenv.config();
 
@@ -17,9 +21,9 @@ app.use(cookieParser());
 
 app.use(
   cors({
-    origin: "https://chat-sphere-fawn.vercel.app",
+    origin: allowedOrigins,
     credentials: true,
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
@@ -27,6 +31,10 @@ app.use(
 // Routes
 app.use("/api/user", userRoute);
 app.use("/api/message", messageRoute);
+app.use("/api/friend", friendRoute);
+app.use("/api/group", groupRoute);
+app.use("/api/todo", todoRoute);
+app.use("/api/file", fileRoute);
 
 app.get("/", (req, res) => {
   res.json({ status: "Backend Running Successfully ✅" });
@@ -40,7 +48,6 @@ app.use((req, res) => {
 const PORT = process.env.PORT || 3001;
 const URI = process.env.MONGODB_URI;
 
-// BUG FIX: MongoDB ko properly async connect karo
 mongoose
   .connect(URI)
   .then(() => {
@@ -51,5 +58,5 @@ mongoose
   })
   .catch((err) => {
     console.log("❌ MongoDB connection failed:", err.message);
-    process.exit(1); // server band karo agar DB nahi chala
+    process.exit(1);
   });

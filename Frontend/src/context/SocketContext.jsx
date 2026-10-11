@@ -1,41 +1,36 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
+import { io } from "socket.io-client";
 import { useAuth } from "./AuthProvider";
-import io from "socket.io-client";
-const socketContext = createContext();
+import { API_URL } from "../lib/api";
 
-// it is a hook.
-export const useSocketContext = () => {
-  return useContext(socketContext);
-};
+const SocketContext = createContext({ socket: null, onlineUsers: [] });
+
+export const useSocketContext = () => useContext(SocketContext);
 
 export const SocketProvider = ({ children }) => {
   const [socket, setSocket] = useState(null);
   const [onlineUsers, setOnlineUsers] = useState([]);
   const [authUser] = useAuth();
+  const userId = authUser?.user?._id;
 
   useEffect(() => {
-    if (authUser) {
-
-      const socket = io("https://chatsphere-qkvb.onrender.com", {
-        query: {
-          userId: authUser.user._id,
-        },
-      });
-      setSocket(socket);
-      socket.on("getOnlineUsers", (users) => {
-        setOnlineUsers(users);
-      });
-      return () => socket.close();
-    } else {
-      if (socket) {
-        socket.close();
-        setSocket(null);
-      }
+    if (!userId) {
+      setSocket(null);
+      setOnlineUsers([]);
+      return;
     }
-  }, [authUser]);
+    const s = io(API_URL, { query: { userId }, withCredentials: true });
+    setSocket(s);
+    s.on("getOnlineUsers", (users) => setOnlineUsers(users));
+    return () => {
+      s.off("getOnlineUsers");
+      s.close();
+    };
+  }, [userId]);
+
   return (
-    <socketContext.Provider value={{ socket, onlineUsers }}>
+    <SocketContext.Provider value={{ socket, onlineUsers }}>
       {children}
-    </socketContext.Provider>
+    </SocketContext.Provider>
   );
 };

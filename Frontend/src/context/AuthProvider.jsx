@@ -1,14 +1,18 @@
 import React, { createContext, useContext, useState } from "react";
-import Cookies from "js-cookie";
-export const AuthContext = createContext();
-export const AuthProvider = ({ children }) => {
-  const initialUserState =
-    Cookies.get("jwt") || localStorage.getItem("ChatApp");
+import { getStoredUser } from "../lib/api";
 
-  // parse the user data and storing in state.
-  const [authUser, setAuthUser] = useState(
-    initialUserState ? JSON.parse(initialUserState) : undefined
-  );
+export const AuthContext = createContext();
+
+export const AuthProvider = ({ children }) => {
+  const [authUser, setAuthUserState] = useState(getStoredUser);
+
+  // Login/logout dono yahin se hote hain, localStorage bhi sync rehta hai
+  const setAuthUser = (value) => {
+    if (value) localStorage.setItem("ChatApp", JSON.stringify(value));
+    else localStorage.removeItem("ChatApp");
+    setAuthUserState(value);
+  };
+
   return (
     <AuthContext.Provider value={[authUser, setAuthUser]}>
       {children}

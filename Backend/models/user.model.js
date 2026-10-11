@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const userSchema = mongoose.Schema(
+const userSchema = new mongoose.Schema(
   {
     fullname: {
       type: String,
@@ -19,7 +19,8 @@ const userSchema = mongoose.Schema(
       required: true,
       minlength: 6,
     },
-    // BUG FIX: confirmPassword DB mein store nahi karna chahiye - hata diya
+    // Accepted friends ki list. Sirf friends ek dusre ko DM kar sakte hain.
+    friends: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
   },
   { timestamps: true }
 );

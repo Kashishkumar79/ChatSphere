@@ -14,13 +14,21 @@ A real-time chat application built with the MERN stack and Socket.IO — featuri
 
 ## ✨ Features
 
+- 🏠 **Home Dashboard** — Friends, groups, pending requests aur open tasks ek jagah, plus quick actions
+- 💬 **Chats** — Sirf **friends** ke saath 1-to-1 realtime chat (unread badges ke saath)
+- 👥 **Groups** — Naya group banao (aap admin honge), join requests approve/reject karo, members remove karo, group delete karo
+- 🤝 **Friends** — Friend request bhejo / accept / decline / cancel, log dhoondo, friend remove karo
+- ✅ **Tasks (Todo)** — Priority, due date, progress bar, filters, aur completed tasks clear karne ka option
+- 🔍 **In-chat Search** — Kisi bhi chat mein messages search karo
+- 🟢 **Online Status** — Real-time online/offline indicator
+- 🔔 **Notifications** — Naye message par sound aur unread count
 - 🔐 **JWT Authentication** — Secure signup & login with hashed passwords
-- 💬 **Real-time Messaging** — Instant chat powered by Socket.IO
-- 🟢 **Online Status** — See who's online in real time
-- 🔔 **Message Notifications** — Audio notification on new messages
-- 🔍 **User Search** — Find and start conversations with any user
-- 📱 **Responsive Design** — Works on mobile and desktop
-- 🌙 **Dark UI** — Beautiful glassmorphism dark theme
+- 📱 **Responsive Design** — Mobile par bottom navigation, desktop par side rail
+
+### Rules
+- **DM** sirf friends ke beech hota hai. Pehle friend request accept honi chahiye.
+- **Group** banane wala user **Admin** hota hai. Doosre users join request bhejte hain, admin accept/reject karta hai.
+- Group ke members aapas mein group chat kar sakte hain.
 
 ---
 
@@ -55,24 +63,25 @@ A real-time chat application built with the MERN stack and Socket.IO — featuri
 
 ```
 ChatSphere/
-├── frontend/
+├── Frontend/
 │   └── src/
-│       ├── components/       # Login, Signup
-│       ├── context/          # Hooks (messages, users, socket)
-│       ├── home/
-│       │   ├── Leftpart/     # Sidebar, user list, search
-│       │   ├── Rightpart/    # Chat window, messages
-│       │   └── left1/        # Logout
-│       ├── statemanage/      # Zustand store
-│       └── App.jsx
+│       ├── components/       # Login, Signup, Modal, Avatar, shared UI
+│       ├── layout/           # AppShell, NavRail (section navigation)
+│       ├── sections/         # Dashboard, Chats, Groups, Friends, Todo
+│       ├── chat/             # ChatWindow, MessageBubble
+│       ├── groups/           # CreateGroupModal, GroupInfoPanel
+│       ├── hooks/            # useRealtime (socket events → store)
+│       ├── context/          # Auth, Socket providers
+│       ├── store/            # Zustand app store
+│       └── lib/              # axios API instance
 │
-└── backend/
-    ├── controller/           # user.controller, message.controller
+└── Backend/
+    ├── controller/           # user, message, friend, group, todo
     ├── middleware/           # secureRoute (JWT auth)
-    ├── models/               # User, Message, Conversation
-    ├── routes/               # user.route, message.route
+    ├── models/               # User, Message, Conversation, FriendRequest, Group, Todo
+    ├── routes/               # user, message, friend, group, todo
     ├── jwt/                  # generateToken
-    ├── SocketIO/             # server.js
+    ├── SocketIO/             # server.js (socket + emitToUser helper)
     └── index.js
 ```
 
@@ -122,6 +131,12 @@ npm install
 npm run dev
 ```
 
+Local backend use karna ho to `frontend/.env` mein:
+
+```env
+VITE_API_URL=http://localhost:5002
+```
+
 App will run at `http://localhost:5173`
 
 ---
@@ -158,7 +173,7 @@ NODE_ENV=production
 
 ## 🔧 API Endpoints
 
-### Auth Routes — `/api/user`
+### Auth — `/api/user`
 | Method | Endpoint | Description |
 |--------|----------|-------------|
 | POST | `/signup` | Register new user |
@@ -166,11 +181,48 @@ NODE_ENV=production
 | POST | `/logout` | Logout user |
 | GET | `/allusers` | Get all users (auth required) |
 
-### Message Routes — `/api/message`
+### Friends — `/api/friend`
 | Method | Endpoint | Description |
 |--------|----------|-------------|
-| POST | `/send/:id` | Send message (auth required) |
-| GET | `/get/:id` | Get messages (auth required) |
+| GET | `/people?search=` | Users dhoondo, har ek ka relation ke saath |
+| GET | `/list` | Meri friends list |
+| GET | `/requests` | Incoming aur outgoing pending requests |
+| POST | `/request/:id` | Friend request bhejo |
+| POST | `/request/:requestId/accept` | Request accept karo |
+| DELETE | `/request/:requestId` | Request reject / cancel karo |
+| DELETE | `/:id` | Friend remove karo |
+
+### Groups — `/api/group`
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | `/` | Group banao (creator = admin) |
+| GET | `/mine` | Mere groups |
+| GET | `/discover?search=` | Groups dhoondo (join ke liye) |
+| GET | `/:id` | Group details (join requests sirf admin ko) |
+| DELETE | `/:id` | Group delete (sirf admin) |
+| POST | `/:id/join` | Join request bhejo |
+| DELETE | `/:id/join` | Apni join request cancel karo |
+| POST | `/:id/requests/:userId/approve` | Request approve (sirf admin) |
+| POST | `/:id/requests/:userId/reject` | Request reject (sirf admin) |
+| DELETE | `/:id/members/:userId` | Member remove (sirf admin) |
+| POST | `/:id/leave` | Group chhodo (admin nahi chhod sakta) |
+| GET | `/:id/messages` | Group messages (members only) |
+| POST | `/:id/messages` | Group mein message bhejo (members only) |
+
+### Messages — `/api/message`
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | `/send/:id` | DM bhejo (sirf friend ko) |
+| GET | `/get/:id` | DM messages (sirf friend ke saath) |
+
+### Tasks — `/api/todo`
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/` | Meri tasks |
+| POST | `/` | Task banao (`title`, `priority`, `dueDate`) |
+| PATCH | `/:id` | Task update (`title`, `done`, `priority`, `dueDate`) |
+| DELETE | `/completed` | Completed tasks clear karo |
+| DELETE | `/:id` | Task delete |
 
 ---
 

@@ -8,7 +8,10 @@
     "start": "node index.js",
     "dev": "nodemon index.js"
   },
-  "keywords": ["MERN", "ChatSphere"],
+  "keywords": [
+    "MERN",
+    "ChatSphere"
+  ],
   "author": "Kashish Kumar",
   "license": "ISC",
   "dependencies": {
@@ -19,6 +22,7 @@
     "express": "^4.22.2",
     "jsonwebtoken": "^9.0.3",
     "mongoose": "^8.24.0",
+    "multer": "^2.4.0",
     "nodemon": "^3.1.14",
     "socket.io": "^4.8.3"
   }

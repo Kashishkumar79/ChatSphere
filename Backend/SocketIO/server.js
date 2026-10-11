@@ -5,25 +5,33 @@ import express from "express";
 const app = express();
 const server = http.createServer(app);
 
+// Allowed frontend origins (production + local dev)
+export const allowedOrigins = [
+  process.env.FRONTEND_URL,
+  "https://chat-sphere-fawn.vercel.app",
+  "http://localhost:5173",
+  "http://localhost:3001",
+].filter(Boolean);
+
 const io = new Server(server, {
   cors: {
-    // BUG FIX: Pehle yahan backend ka apna URL tha - galat tha
-    // Yahan FRONTEND ka URL hona chahiye
-    origin: process.env.FRONTEND_URL || "https://chat-sphere-fawn.vercel.app",
-    methods: ["GET", "POST"],
+    origin: allowedOrigins,
+    methods: ["GET", "POST", "DELETE", "PATCH"],
     credentials: true,
   },
 });
 
 const users = {}; // { userId: socketId }
 
-export const getReceiverSocketId = (receiverId) => {
-  return users[receiverId];
+export const getReceiverSocketId = (receiverId) => users[String(receiverId)];
+
+// Kisi ek user ko event bhejo (agar woh online hai)
+export const emitToUser = (userId, event, data) => {
+  const socketId = users[String(userId)];
+  if (socketId) io.to(socketId).emit(event, data);
 };
 
 io.on("connection", (socket) => {
-  console.log("User connected:", socket.id);
-
   const userId = socket.handshake.query.userId;
   if (userId && userId !== "undefined") {
     users[userId] = socket.id;
@@ -33,8 +41,8 @@ io.on("connection", (socket) => {
   io.emit("getOnlineUsers", Object.keys(users));
 
   socket.on("disconnect", () => {
-    console.log("User disconnected:", socket.id);
-    if (userId) {
+    // Sirf tabhi delete karo jab yehi socket active ho
+    if (userId && users[userId] === socket.id) {
       delete users[userId];
     }
     io.emit("getOnlineUsers", Object.keys(users));
