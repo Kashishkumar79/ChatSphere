@@ -145,7 +145,7 @@ App will run at `http://localhost:5173`
 
 | Service | Platform |
 |---------|----------|
-| Frontend | Vercel |
+| Frontend | Netlify |
 | Backend | Render |
 | Database | MongoDB Atlas |
 
@@ -160,14 +160,6 @@ NODE_ENV=production
 ```
 
 > ⚠️ Make sure `FRONTEND_URL` exactly matches your Vercel domain — no trailing slash.
-
----
-
-## 📸 Screenshots
-
-| Login | Chat |
-|-------|------|
-| ![Login](./screenshots/login.png) | ![Chat](./screenshots/chat.png) |
 
 ---
 
@@ -232,7 +224,7 @@ NODE_ENV=production
 
 ## 🔗 Live Demo
 
-🌐 **[https://chat-sphere-fawn.vercel.app](https://chat-sphere-fawn.vercel.app)**
+🌐 **[https://chat-sphere-fawn.vercel.app](https://chatshpere.netlify.app/)**
 
 ---
 
