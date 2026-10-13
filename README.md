@@ -14,31 +14,33 @@ A real-time chat application built with the MERN stack and Socket.IO — featuri
 
 ## ✨ Features
 
-- 🏠 **Home Dashboard** — Friends, groups, pending requests aur open tasks ek jagah, plus quick actions
-- 💬 **Chats** — Sirf **friends** ke saath 1-to-1 realtime chat (unread badges ke saath)
-- 👥 **Groups** — Naya group banao (aap admin honge), join requests approve/reject karo, members remove karo, group delete karo
-- 🤝 **Friends** — Friend request bhejo / accept / decline / cancel, log dhoondo, friend remove karo
-- ✅ **Tasks (Todo)** — Priority, due date, progress bar, filters, aur completed tasks clear karne ka option
-- 🔍 **In-chat Search** — Kisi bhi chat mein messages search karo
+- 🏠 **Home Dashboard** — Friends, groups, pending requests, and open tasks in one place, plus quick actions
+- 💬 **Chats** — Real-time 1-to-1 chat with **friends only**, with unread badges
+- 👥 **Groups** — Create a new group (you become the admin), approve/reject join requests, remove members, and delete the group
+- 🤝 **Friends** — Send, accept, decline, or cancel friend requests, search for people, and remove friends
+- ✅ **Tasks (Todo)** — Priorities, due dates, a progress bar, filters, and an option to clear completed tasks
+- 🔍 **In-chat Search** — Search for messages inside any chat
 - 🟢 **Online Status** — Real-time online/offline indicator
-- 🔔 **Notifications** — Naye message par sound aur unread count
-- 🔐 **JWT Authentication** — Secure signup & login with hashed passwords
-- 📱 **Responsive Design** — Mobile par bottom navigation, desktop par side rail
+- 🔔 **Notifications** — Sound alert and unread count for new messages
+- 🔐 **JWT Authentication** — Secure signup and login with hashed passwords
+- 📱 **Responsive Design** — Bottom navigation on mobile, side rail on desktop
 
 ### Rules
-- **DM** sirf friends ke beech hota hai. Pehle friend request accept honi chahiye.
-- **Group** banane wala user **Admin** hota hai. Doosre users join request bhejte hain, admin accept/reject karta hai.
-- Group ke members aapas mein group chat kar sakte hain.
+
+- **DMs** are only possible between friends. A friend request must be accepted first.
+- The user who creates a **group** becomes its **Admin**. Other users send join requests, and the admin accepts or rejects them.
+- Group members can chat with each other in the group chat.
 
 ---
 
 ## 🛠️ Tech Stack
 
 ### Frontend
+
 | Tech | Usage |
 |------|-------|
-| React 18 | UI Framework |
-| Vite | Build Tool |
+| React 18 | UI framework |
+| Vite | Build tool |
 | Tailwind CSS | Styling |
 | Socket.IO Client | Real-time communication |
 | Axios | API calls |
@@ -48,6 +50,7 @@ A real-time chat application built with the MERN stack and Socket.IO — featuri
 | React Hot Toast | Notifications |
 
 ### Backend
+
 | Tech | Usage |
 |------|-------|
 | Node.js + Express | Server |
@@ -90,6 +93,7 @@ ChatSphere/
 ## 🚀 Getting Started
 
 ### Prerequisites
+
 - Node.js v18+
 - MongoDB (local or Atlas)
 
@@ -103,11 +107,11 @@ cd chatsphere
 ### 2. Backend Setup
 
 ```bash
-cd backend
+cd Backend
 npm install
 ```
 
-Create `.env` file:
+Create a `.env` file:
 
 ```env
 PORT=5002
@@ -117,7 +121,7 @@ FRONTEND_URL=http://localhost:5173
 NODE_ENV=development
 ```
 
-Start backend:
+Start the backend:
 
 ```bash
 npm run dev
@@ -126,18 +130,18 @@ npm run dev
 ### 3. Frontend Setup
 
 ```bash
-cd frontend
+cd Frontend
 npm install
 npm run dev
 ```
 
-Local backend use karna ho to `frontend/.env` mein:
+To use the local backend, add this to `Frontend/.env`:
 
 ```env
 VITE_API_URL=http://localhost:5002
 ```
 
-App will run at `http://localhost:5173`
+The app will run at `http://localhost:5173`
 
 ---
 
@@ -155,66 +159,71 @@ App will run at `http://localhost:5173`
 PORT=5002
 MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/chatsphere
 JWT_TOKEN=your_production_secret
-FRONTEND_URL=https://your-vercel-app.vercel.app
+FRONTEND_URL=https://your-netlify-app.netlify.app
 NODE_ENV=production
 ```
 
-> ⚠️ Make sure `FRONTEND_URL` exactly matches your Vercel domain — no trailing slash.
+> ⚠️ Make sure `FRONTEND_URL` exactly matches your Netlify domain — no trailing slash.
 
 ---
 
 ## 🔧 API Endpoints
 
 ### Auth — `/api/user`
+
 | Method | Endpoint | Description |
 |--------|----------|-------------|
-| POST | `/signup` | Register new user |
-| POST | `/login` | Login user |
-| POST | `/logout` | Logout user |
+| POST | `/signup` | Register a new user |
+| POST | `/login` | Log in a user |
+| POST | `/logout` | Log out a user |
 | GET | `/allusers` | Get all users (auth required) |
 
 ### Friends — `/api/friend`
+
 | Method | Endpoint | Description |
 |--------|----------|-------------|
-| GET | `/people?search=` | Users dhoondo, har ek ka relation ke saath |
-| GET | `/list` | Meri friends list |
-| GET | `/requests` | Incoming aur outgoing pending requests |
-| POST | `/request/:id` | Friend request bhejo |
-| POST | `/request/:requestId/accept` | Request accept karo |
-| DELETE | `/request/:requestId` | Request reject / cancel karo |
-| DELETE | `/:id` | Friend remove karo |
+| GET | `/people?search=` | Search users, each with their relationship status |
+| GET | `/list` | My friends list |
+| GET | `/requests` | Incoming and outgoing pending requests |
+| POST | `/request/:id` | Send a friend request |
+| POST | `/request/:requestId/accept` | Accept a request |
+| DELETE | `/request/:requestId` | Reject / cancel a request |
+| DELETE | `/:id` | Remove a friend |
 
 ### Groups — `/api/group`
+
 | Method | Endpoint | Description |
 |--------|----------|-------------|
-| POST | `/` | Group banao (creator = admin) |
-| GET | `/mine` | Mere groups |
-| GET | `/discover?search=` | Groups dhoondo (join ke liye) |
-| GET | `/:id` | Group details (join requests sirf admin ko) |
-| DELETE | `/:id` | Group delete (sirf admin) |
-| POST | `/:id/join` | Join request bhejo |
-| DELETE | `/:id/join` | Apni join request cancel karo |
-| POST | `/:id/requests/:userId/approve` | Request approve (sirf admin) |
-| POST | `/:id/requests/:userId/reject` | Request reject (sirf admin) |
-| DELETE | `/:id/members/:userId` | Member remove (sirf admin) |
-| POST | `/:id/leave` | Group chhodo (admin nahi chhod sakta) |
+| POST | `/` | Create a group (creator = admin) |
+| GET | `/mine` | My groups |
+| GET | `/discover?search=` | Search for groups to join |
+| GET | `/:id` | Group details (join requests visible to admin only) |
+| DELETE | `/:id` | Delete a group (admin only) |
+| POST | `/:id/join` | Send a join request |
+| DELETE | `/:id/join` | Cancel your own join request |
+| POST | `/:id/requests/:userId/approve` | Approve a request (admin only) |
+| POST | `/:id/requests/:userId/reject` | Reject a request (admin only) |
+| DELETE | `/:id/members/:userId` | Remove a member (admin only) |
+| POST | `/:id/leave` | Leave a group (admin cannot leave) |
 | GET | `/:id/messages` | Group messages (members only) |
-| POST | `/:id/messages` | Group mein message bhejo (members only) |
+| POST | `/:id/messages` | Send a message in the group (members only) |
 
 ### Messages — `/api/message`
+
 | Method | Endpoint | Description |
 |--------|----------|-------------|
-| POST | `/send/:id` | DM bhejo (sirf friend ko) |
-| GET | `/get/:id` | DM messages (sirf friend ke saath) |
+| POST | `/send/:id` | Send a DM (friends only) |
+| GET | `/get/:id` | Get DM messages (with a friend only) |
 
 ### Tasks — `/api/todo`
+
 | Method | Endpoint | Description |
 |--------|----------|-------------|
-| GET | `/` | Meri tasks |
-| POST | `/` | Task banao (`title`, `priority`, `dueDate`) |
-| PATCH | `/:id` | Task update (`title`, `done`, `priority`, `dueDate`) |
-| DELETE | `/completed` | Completed tasks clear karo |
-| DELETE | `/:id` | Task delete |
+| GET | `/` | My tasks |
+| POST | `/` | Create a task (`title`, `priority`, `dueDate`) |
+| PATCH | `/:id` | Update a task (`title`, `done`, `priority`, `dueDate`) |
+| DELETE | `/completed` | Clear completed tasks |
+| DELETE | `/:id` | Delete a task |
 
 ---
 
@@ -224,7 +233,7 @@ NODE_ENV=production
 
 ## 🔗 Live Demo
 
-🌐 **[https://chat-sphere-fawn.vercel.app](https://chatshpere.netlify.app/)**
+🌐 **[https://chatshpere.netlify.app](https://chatshpere.netlify.app/)**
 
 ---
 
